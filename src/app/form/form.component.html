@@ -1,0 +1,63 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container mt-4" style="max-width: 500px; padding: 15px;">
+    <div class="form-group mb-3">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" name="name" formControlName="name" placeholder="Enter Your Name" [ngClass]="{ 'is-invalid': form.get('name')?.invalid && submitted, 'is-valid': form.get('name')?.valid && submitted }">
+      
+    <div *ngIf="form.get('name')?.invalid && submitted" class="text-danger">
+        
+        <div *ngIf="form.get('name')?.errors?.['required']">
+            First name is required
+        </div >
+        <div *ngIf="form.get('name')?.errors?.['minlength']">
+            First name must be 3 character long
+        </div>
+    </div> 
+    </div>
+    <div class="form-group mb-3">
+        <label for="company">Company</label>
+        <input type="text" class="form-control" name="company" formControlName="company" placeholder="Enter Your Current Company Name">
+    </div>
+    <div class="form-group mb-3">
+        <div class="row">
+    <div formArrayName="skills">
+        <div *ngFor="let skill of skills.controls; let i= index">
+            <div [formGroupName]="i">
+            <div class="col-3">
+            <input type="text" formControlName="skill" placeholder="Enter Your Skill" class="me-3" [ngClass]="{ 'is-invalid': skill.get('skill')?.invalid && submitted, 'is-valid': skill.get('skill')?.valid && submitted }">
+            <div *ngIf="skill.get('skill')?.invalid && submitted" class="text-danger">
+                <div *ngIf="skill.get('skill')?.errors?.['required']">
+                  Skill is required
+                </div>
+                <div *ngIf="skill.get('skill')?.errors?.['minlength']">
+                  Skill must be at least 3 characters long
+                </div>
+              </div>
+            
+            <input type="text" formControlName="exp" placeholder="Enter Your Experience" class="me-3" [ngClass]="{ 'is-invalid': skill.get('exp')?.invalid && submitted, 'is-valid': skill.get('exp')?.valid && submitted }">
+            <div *ngIf="skill.get('exp')?.invalid && submitted" class="text-danger">
+                <div *ngIf="skill.get('exp')?.errors?.['required']">
+                  Experience is required
+                </div>
+                <div *ngIf="skill.get('exp')?.errors?.['minlength']">
+                  Experience must be at least 1 character long
+                </div>
+              </div>
+
+            <button class="btn btn-danger" (click)="removeSkill(i)">Remove</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <button type="button" class="btn btn-success me-3" (click)="addSkills()">Add Skills</button>
+    <button type="submit"  class="btn btn-primary">Submit</button>
+ </form>
+
+
+  
+
+  {{this.form.value | json}}
+
+
+
